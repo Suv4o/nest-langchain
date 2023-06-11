@@ -1,3 +1,20 @@
 ### App test endpoint
 GET {{baseUrl}} HTTP/1.1
 Content-Type: application/json
+
+### Chat test
+POST {{baseUrl}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "inputMessage": "",
+    "historySummary": ""
+}
+
+### Url test endpoint
+GET {{baseUrl}}/urls HTTP/1.1
+Content-Type: application/json
+
+### Scan test endpoint
+GET {{baseUrl}}/scan HTTP/1.1
+Content-Type: application/json
