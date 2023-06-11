@@ -18,43 +18,33 @@ export class AppService {
     let uniqueLinks = [websiteUrl];
     const linksToVisit = [];
     const visitedLinks = [];
-
     await getLinksFromUrl(websiteUrl);
-
     async function loopThroughLinks(allLinks) {
       for (const link of allLinks) {
         const isVisited = visitedLinks?.find(
           (visitedLink) => visitedLink === link,
         );
-
         if (!isVisited) {
           visitedLinks.push(link);
           await getLinksFromUrl(link);
         }
       }
     }
-
     async function getLinksFromUrl(url) {
       links = [];
       const websiteHtml = await fetch(url).catch(() => {
         return;
       });
-
       if (!websiteHtml) {
         return;
       }
-
       const htmlData = await websiteHtml.text();
-
       const $ = cheerio.load(htmlData);
       const linkObjects = $('a');
-
       linkObjects.each((index, element) => {
         links.push($(element).attr('href'));
       });
-
       uniqueLinks = [...new Set(links)];
-
       uniqueLinks = uniqueLinks
         .map((link) => {
           if (
@@ -81,15 +71,12 @@ export class AppService {
             return link?.includes('http') && link?.includes(websiteUrl);
           }
         });
-
       linksToVisit.push(...uniqueLinks);
-
       if (!isLoaded) {
         await loopThroughLinks(uniqueLinks);
         isLoaded = true;
       }
     }
-
     return [...new Set(linksToVisit)];
   }
 
@@ -103,7 +90,7 @@ export class AppService {
         password: process.env.POSTGRES_PASSWORD,
         database: process.env.POSTGRES_DB,
       } as DataSourceOptions,
-      tableName: 'test',
+      tableName: 'documents',
     };
 
     const typeormVectorStore = await TypeORMVectorStore.fromDataSource(
@@ -185,7 +172,7 @@ export class AppService {
     };
   }
 
-  async getHello(body) {
+  async chat(body) {
     const { inputMessage, historySummary } = body;
 
     const args = {
@@ -197,7 +184,7 @@ export class AppService {
         password: process.env.POSTGRES_PASSWORD,
         database: process.env.POSTGRES_DB,
       } as DataSourceOptions,
-      tableName: 'test',
+      tableName: 'documents',
     };
 
     const typeormVectorStore = await TypeORMVectorStore.fromDataSource(
