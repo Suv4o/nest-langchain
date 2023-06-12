@@ -3,7 +3,7 @@ POST {{baseUrl}} HTTP/1.1
 Content-Type: application/json
 
 {
-    "inputMessage": "",
+    "inputMessage": "Hello!",
     "historySummary": ""
 }
 

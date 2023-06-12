@@ -256,40 +256,9 @@ export class AppService {
     const response = await chain.call({
       input: inputMessage,
     });
-    console.log(await memory.loadMemoryVariables({}));
-    return response;
-
-    ///////////
-    // const memory = new ConversationSummaryMemory({
-    //   memoryKey: 'chat_history',
-    //   llm: new ChatOpenAI({
-    //     modelName: 'gpt-3.5-turbo',
-    //     temperature: 0,
-    //     maxTokens: 2000,
-    //   }),
-    // });
-    // await memory.saveContext(
-    //   {
-    //     input: `Hi, my name is Perry, what's up?\nMy favorite sport is basketball\n?My favorite food is pizza?`,
-    //   },
-    //   {
-    //     output: `Perry introduces themselves to the AI and the AI greets them, explaining its limitations. The AI asks if there's anything specific Perry would like to talk about or ask. Perry shares that their favorite sport is basketball, and the AI responds with information about the sport's history and evolution, as well as asking if Perry has a favorite team or player. The human then shares that their favorite food is pizza, and the AI responds with interesting facts about the origin of pizza and asks if Perry has a favorite type or toppings.`,
-    //   },
-    // );
-    // const chat = new ChatOpenAI({
-    //   openAIApiKey: process.env.OPENAI_API_KEY,
-    //   modelName: 'gpt-3.5-turbo',
-    //   temperature: 0,
-    // });
-    // const prompt =
-    //   PromptTemplate.fromTemplate(`The following is a friendly conversation between a human and an AI. The AI is talkative and provides lots of specific details from its context. If the AI does not know the answer to a question, it truthfully says it does not know.
-    //   Current conversation:
-    //   {chat_history}
-    //   Human: {input}
-    //   AI:`);
-    // const chain = new LLMChain({ llm: chat, prompt, memory });
-    // const response = await chain.call({ input: 'What is my favorite food?' });
-    // console.log(await memory.loadMemoryVariables({}));
-    // return response;
+    return {
+      ...(await memory.loadMemoryVariables({})),
+      ...response,
+    };
   }
 }
